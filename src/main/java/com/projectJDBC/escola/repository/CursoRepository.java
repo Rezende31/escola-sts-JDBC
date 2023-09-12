@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.projectJDBC.escola.db.DB;
@@ -18,17 +19,14 @@ public class CursoRepository {
 
 	@Autowired
 	private static Connection conn = DB.getConnection();
+	
+	private final JdbcTemplate jdbcTemplate;
+	
+	@Autowired
+    public CursoRepository(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
-//	public CursoRepository(Connection conn) {
-//		this.conn = conn;
-//	}
-
-//	private final JdbcTemplate jdbcTemplate;
-//
-//    @Autowired
-//    public CursoRepository(JdbcTemplate jdbcTemplate) {
-//        this.jdbcTemplate = jdbcTemplate;
-//    }
 
 	public List<Curso> listarCursos() {
 		List<Curso> cursos = new ArrayList<>();
@@ -58,20 +56,26 @@ public class CursoRepository {
 		return cursos;
 	}
 
+//	public void salvarCurso(Curso curso) {
+//		Connection conn = DB.getConnection();
+//		String sql = "INSERT INTO Curso (Nome, Descricao, Duracao) VALUES (?, ?, ?)";
+//		try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+//			stmt.setString(1, curso.getNome());
+//			stmt.setString(2, curso.getDescricao());
+//			stmt.setInt(3, curso.getDuracao());
+//
+//			stmt.executeUpdate();
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+//		DB.closeConnection();
+//	}
+	
+	//TESTE COM JDBC DE SALVAR CURSO
 	public void salvarCurso(Curso curso) {
-		Connection conn = DB.getConnection();
-		String sql = "INSERT INTO Curso (Nome, Descricao, Duracao) VALUES (?, ?, ?)";
-		try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-			stmt.setString(1, curso.getNome());
-			stmt.setString(2, curso.getDescricao());
-			stmt.setInt(3, curso.getDuracao());
-
-			stmt.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		DB.closeConnection();
-	}
+        String sql = "INSERT INTO Curso (Nome, Descricao, Duracao) VALUES (?, ?, ?)";
+        jdbcTemplate.update(sql, curso.getNome(), curso.getDescricao(), curso.getDuracao());
+    }
 
 	public void excluirCurso(int codigo) {
 		String sql = "DELETE FROM Curso WHERE Codigo = ?";
