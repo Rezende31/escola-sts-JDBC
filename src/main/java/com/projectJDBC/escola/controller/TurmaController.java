@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,15 +26,6 @@ public class TurmaController {
 		this.turmaService = turmaService;
 	}
 
-//    @GetMapping("/buscarPorCurso/{codigoCurso}")
-//    public List<Turma> buscarTurmasPorCurso(@PathVariable int codigoCurso) {
-//        return turmaService.buscarTurmasPorCurso(codigoCurso);
-//    }
-
-//    @PostMapping("/incluir")
-//    public void incluirTurma(@RequestBody Turma turma) {
-//        turmaService.salvarTurma(turma);
-//    }
 
 	@GetMapping("/buscarPorCurso/{codigoCurso}")
 	public ResponseEntity<List<Turma>> buscarTurmasPorCurso(@PathVariable int codigoCurso) {
@@ -45,5 +37,11 @@ public class TurmaController {
 		turmaService.salvarTurma(turma);
 		return ResponseEntity.ok("Turma cadastrada a um curso com sucesso");
 	}
+	
+	@PutMapping("/atualizar")
+    public ResponseEntity<String> atualizarTurma(@RequestBody Turma turma) {
+        turmaService.atualizarTurma(turma);
+        return ResponseEntity.ok("Turma atualizada com sucesso!");
+    }
 
 }

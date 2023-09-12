@@ -25,5 +25,9 @@ public class TurmaService {
     public void salvarTurma(Turma turma) {
         turmaRepository.salvarTurma(turma);
     }
+    
+    public void atualizarTurma(Turma turma) {
+        turmaRepository.atualizarTurma(turma);
+    }
 	
 }

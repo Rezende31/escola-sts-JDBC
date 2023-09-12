@@ -64,5 +64,17 @@ public class TurmaRepository {
             turma.getCurso().getCodigo()
         );
     }
+	
+	public void atualizarTurma(Turma turma) {
+        String sql = "UPDATE Turma SET Inicio = ?, Fim = ?, Local = ?, Curso = ? WHERE Codigo = ?";
+        jdbcTemplate.update(
+            sql,
+            turma.getInicio(),
+            turma.getFim(),
+            turma.getLocal(),
+            turma.getCurso().getCodigo(),
+            turma.getCodigo()
+        );
+    }
 
 }
