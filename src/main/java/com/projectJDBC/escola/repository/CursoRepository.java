@@ -18,39 +18,82 @@ public class CursoRepository {
 
 	@Autowired
 	private static Connection conn = DB.getConnection();
-//
+
 //	public CursoRepository(Connection conn) {
 //		this.conn = conn;
 //	}
 
-	public List<Curso> listarCursos()  {
-        List<Curso> cursos = new ArrayList<>();
-        
-        
+//	private final JdbcTemplate jdbcTemplate;
+//
+//    @Autowired
+//    public CursoRepository(JdbcTemplate jdbcTemplate) {
+//        this.jdbcTemplate = jdbcTemplate;
+//    }
 
-        String sql = "SELECT * FROM curso";
+	public List<Curso> listarCursos() {
+		List<Curso> cursos = new ArrayList<>();
+		Connection conn = DB.getConnection();
+		String sql = "SELECT * FROM curso";
 
-        try (PreparedStatement ps = conn.prepareStatement(sql);
-             ResultSet resultSet = ps.executeQuery()) {
+		try (PreparedStatement ps = conn.prepareStatement(sql); ResultSet resultSet = ps.executeQuery()) {
 
-            while (resultSet.next()) {
-                String nome = resultSet.getString("Nome");
-                String descricao = resultSet.getString("Descricao");
-                Double duracao = resultSet.getDouble(1);
+			while (resultSet.next()) {
+				String nome = resultSet.getString("Nome");
+				String descricao = resultSet.getString("Descricao");
+				int duracao = resultSet.getInt("Duracao");
 
-                Curso curso = new Curso();
-                curso.setNome(nome);
-                curso.setDescricao(descricao);
-                curso.setDuracao(duracao);
+				Curso curso = new Curso();
+				curso.setNome(nome);
+				curso.setDescricao(descricao);
+				curso.setDuracao(duracao);
 
-                cursos.add(curso);
-            }
-        } catch (SQLException e) {
+				cursos.add(curso);
+			}
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-        DB.closeConnection();
-        return cursos;
+//        DB.closeConnection();
+		return cursos;
 	}
 
+	public void salvarCurso(Curso curso) {
+		Connection conn = DB.getConnection();
+		String sql = "INSERT INTO Curso (Nome, Descricao, Duracao) VALUES (?, ?, ?)";
+		try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+			stmt.setString(1, curso.getNome());
+			stmt.setString(2, curso.getDescricao());
+			stmt.setInt(3, curso.getDuracao());
+
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		DB.closeConnection();
+	}
+
+	public void excluirCurso(int codigo) {
+		String sql = "DELETE FROM Curso WHERE Codigo = ?";
+		try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+			stmt.setInt(1, codigo);
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			throw new RuntimeException("Erro ao excluir o curso", e);
+		}
+		DB.closeConnection();
+	}
+
+	
+	public void atualizarCurso(Curso curso) {
+        String sql = "UPDATE Curso SET Descricao = ?, Duracao = ? WHERE Nome = ?";
+        try (
+             PreparedStatement pr = conn.prepareStatement(sql)) {
+            pr.setString(1, curso.getDescricao());
+            pr.setInt(2, curso.getDuracao());
+            pr.setString(3, curso.getNome());
+            pr.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao atualizar o curso", e);
+        }
+	}
 
 }

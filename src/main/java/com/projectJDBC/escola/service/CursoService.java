@@ -1,6 +1,5 @@
 package com.projectJDBC.escola.service;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +12,29 @@ import com.projectJDBC.escola.repository.CursoRepository;
 public class CursoService {
 	
 	@Autowired
-	private CursoRepository repository;
+	private final CursoRepository cursoRepository;
+	
+	@Autowired
+    public CursoService(CursoRepository cursoRepository) {
+        this.cursoRepository = cursoRepository;
+    }
 	
 	public List<Curso> findCursos() {
-		List<Curso> teste = repository.listarCursos();
+		List<Curso> teste = cursoRepository.listarCursos();
 		return teste;
 	}
+	
+	public void cadastrarCurso(Curso curso) {
+        cursoRepository.salvarCurso(curso);
+    }
+	
+	public void excluirCurso(int codigo) {
+        cursoRepository.excluirCurso(codigo);
+    }
+	
+	public void atualizarCurso(Curso curso) {
+        cursoRepository.atualizarCurso(curso);
+    }
+	
 
 }

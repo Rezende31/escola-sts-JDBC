@@ -4,13 +4,13 @@ public class Curso {
 	
 	private String nome;
 	private String descricao;
-	private Double duracao;
+	private int duracao;
 	
 	public Curso() {
 		super();
 	}
 
-	public Curso(String nome, String descricao, Double duracao) {
+	public Curso(String nome, String descricao, int duracao) {
 		super();
 		this.nome = nome;
 		this.descricao = descricao;
@@ -33,11 +33,11 @@ public class Curso {
 		this.descricao = descricao;
 	}
 
-	public Double getDuracao() {
+	public int getDuracao() {
 		return duracao;
 	}
 
-	public void setDuracao(Double duracao) {
+	public void setDuracao(int duracao) {
 		this.duracao = duracao;
 	}
 
