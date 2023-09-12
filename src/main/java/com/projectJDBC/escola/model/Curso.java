@@ -2,6 +2,7 @@ package com.projectJDBC.escola.model;
 
 public class Curso {
 	
+	private int codigo;
 	private String nome;
 	private String descricao;
 	private int duracao;
@@ -10,11 +11,21 @@ public class Curso {
 		super();
 	}
 
-	public Curso(String nome, String descricao, int duracao) {
+	public Curso(int codigo, String nome, String descricao, int duracao) {
 		super();
+		this.codigo = codigo;
 		this.nome = nome;
 		this.descricao = descricao;
 		this.duracao = duracao;
+	}
+
+	
+	public int getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(int codigo) {
+		this.codigo = codigo;
 	}
 
 	public String getNome() {

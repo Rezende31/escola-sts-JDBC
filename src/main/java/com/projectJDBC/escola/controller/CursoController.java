@@ -46,11 +46,8 @@ public class CursoController {
         return ResponseEntity.ok("Curso excluído com sucesso!");
     }
 	
-	@PutMapping("/atualizar/{nome}")
-    public ResponseEntity<String> atualizarCurso(@PathVariable String nome, @RequestBody Curso curso) {
-		if (nome.equals(curso.getNome())) {
-            return ResponseEntity.badRequest().body("O nome no caminho não corresponde ao nome no corpo da solicitação.");
-        }
+	@PutMapping("/atualizar")
+    public ResponseEntity<String> atualizarCurso( @RequestBody Curso curso) {
         cursoService.atualizarCurso(curso);
         return ResponseEntity.ok("Curso atualizado com sucesso!");
     }

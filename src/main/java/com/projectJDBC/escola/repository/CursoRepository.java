@@ -41,8 +41,10 @@ public class CursoRepository {
 				String nome = resultSet.getString("Nome");
 				String descricao = resultSet.getString("Descricao");
 				int duracao = resultSet.getInt("Duracao");
+				int codigo = resultSet.getInt("Codigo");
 
 				Curso curso = new Curso();
+				curso.setCodigo(codigo);
 				curso.setNome(nome);
 				curso.setDescricao(descricao);
 				curso.setDuracao(duracao);
@@ -84,12 +86,14 @@ public class CursoRepository {
 
 	
 	public void atualizarCurso(Curso curso) {
-        String sql = "UPDATE Curso SET Descricao = ?, Duracao = ? WHERE Nome = ?";
+        String sql = "UPDATE Curso SET Nome = ?, Descricao = ?, Duracao = ? WHERE Codigo = ?";
         try (
              PreparedStatement pr = conn.prepareStatement(sql)) {
-            pr.setString(1, curso.getDescricao());
-            pr.setInt(2, curso.getDuracao());
-            pr.setString(3, curso.getNome());
+        	pr.setString(1, curso.getNome());
+            pr.setString(2, curso.getDescricao());
+            pr.setInt(3, curso.getDuracao());
+            pr.setInt(4, curso.getCodigo());
+            
             pr.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException("Erro ao atualizar o curso", e);
