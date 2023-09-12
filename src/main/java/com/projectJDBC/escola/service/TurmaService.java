@@ -21,5 +21,9 @@ public class TurmaService {
     public List<Turma> buscarTurmasPorCurso(int codigoCurso) {
         return turmaRepository.buscarTurmasPorCurso(codigoCurso);
     }
+    
+    public void salvarTurma(Turma turma) {
+        turmaRepository.salvarTurma(turma);
+    }
 	
 }

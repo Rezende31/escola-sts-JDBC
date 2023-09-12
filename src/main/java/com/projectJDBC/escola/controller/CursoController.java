@@ -30,8 +30,8 @@ public class CursoController {
 	
 	@GetMapping()
 	public ResponseEntity<List<Curso>> findCourse(){
-		List<Curso> teste = cursoService.findCursos();
-		return ResponseEntity.ok().body(teste);
+		List<Curso> cursos = cursoService.findCursos();
+		return ResponseEntity.ok().body(cursos);
 	}
 	
 	@PostMapping("/cadastro")
