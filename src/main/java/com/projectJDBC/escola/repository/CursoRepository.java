@@ -55,21 +55,6 @@ public class CursoRepository {
 //        DB.closeConnection();
 		return cursos;
 	}
-
-//	public void salvarCurso(Curso curso) {
-//		Connection conn = DB.getConnection();
-//		String sql = "INSERT INTO Curso (Nome, Descricao, Duracao) VALUES (?, ?, ?)";
-//		try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-//			stmt.setString(1, curso.getNome());
-//			stmt.setString(2, curso.getDescricao());
-//			stmt.setInt(3, curso.getDuracao());
-//
-//			stmt.executeUpdate();
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//		DB.closeConnection();
-//	}
 	
 	//TESTE COM JDBC DE SALVAR CURSO
 	public void salvarCurso(Curso curso) {
@@ -78,6 +63,7 @@ public class CursoRepository {
     }
 
 	public void excluirCurso(int codigo) {
+		
 		String sql = "DELETE FROM Curso WHERE Codigo = ?";
 		try (PreparedStatement stmt = conn.prepareStatement(sql)) {
 			stmt.setInt(1, codigo);
@@ -85,7 +71,7 @@ public class CursoRepository {
 		} catch (SQLException e) {
 			throw new RuntimeException("Erro ao excluir o curso", e);
 		}
-		DB.closeConnection();
+//		DB.closeConnection();
 	}
 
 	

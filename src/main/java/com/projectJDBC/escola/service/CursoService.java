@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.projectJDBC.escola.model.Curso;
+import com.projectJDBC.escola.model.Turma;
 import com.projectJDBC.escola.repository.CursoRepository;
+import com.projectJDBC.escola.repository.TurmaRepository;
 
 @Service
 public class CursoService {
@@ -15,8 +17,12 @@ public class CursoService {
 	private final CursoRepository cursoRepository;
 	
 	@Autowired
-    public CursoService(CursoRepository cursoRepository) {
+	private final TurmaRepository turmaRepository;
+	
+	@Autowired
+    public CursoService(CursoRepository cursoRepository, TurmaRepository turmaRepository) {
         this.cursoRepository = cursoRepository;
+        this.turmaRepository = turmaRepository;
     }
 	
 	public List<Curso> findCursos() {
@@ -29,6 +35,10 @@ public class CursoService {
     }
 	
 	public void excluirCurso(int codigo) {
+		List<Turma> turmasAssociadas = turmaRepository.buscarTurmasPorCurso(codigo);
+		for (Turma turma : turmasAssociadas) {
+			turmaRepository.deletarTurmaPorCodigo(turma.getCodigo());
+	    }
         cursoRepository.excluirCurso(codigo);
     }
 	

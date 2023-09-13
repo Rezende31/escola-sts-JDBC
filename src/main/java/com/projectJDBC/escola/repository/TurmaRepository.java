@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.projectJDBC.escola.model.Curso;
+import com.projectJDBC.escola.model.Funcionario;
 import com.projectJDBC.escola.model.Turma;
 
 @Repository
@@ -76,5 +77,55 @@ public class TurmaRepository {
             turma.getCodigo()
         );
     }
+	
+	public void deletarTurmaPorCodigo(int codigo) {
+        String sql = "DELETE FROM Turma WHERE Codigo = ?";
+        jdbcTemplate.update(sql, codigo);
+    }
+	
+	@SuppressWarnings("deprecation")
+	public List<Funcionario> listarParticipantesPorCodigoTurma(int codigoTurma) {
+        String sql = "SELECT f.* FROM Funcionario f " +
+                     "INNER JOIN TurmaParticipante tp ON f.Codigo = tp.Funcionario " +
+                     "WHERE tp.Turma = ?";
+        return jdbcTemplate.query(
+            sql,
+            new Object[]{codigoTurma},
+            (rs, rowNum) -> {
+                Funcionario funcionario = new Funcionario();
+                funcionario.setCodigo(rs.getInt("Codigo"));
+                funcionario.setNome(rs.getString("Nome"));
+                funcionario.setAdmissao(rs.getDate("Admissao"));
+                funcionario.setCargo(rs.getString("Cargo"));
+                funcionario.setCpf(rs.getString("CPF"));
+                funcionario.setNascimento(rs.getDate("Nascimento"));
+                funcionario.setStatus(rs.getBoolean("Status"));
+//                funcionario.setStatus(rs.getBoolean("Status") ? true : false);
+                return funcionario;
+            }
+        );
+    }
+	
+	public void adicionarParticipante(int codigoTurma, int codigoFuncionario) {
+        String sql = "INSERT INTO TurmaParticipante (Turma, Funcionario) VALUES (?, ?)";
+        jdbcTemplate.update(sql, codigoTurma, codigoFuncionario);
+    }
+	
+	public void excluirParticipante(int codigoTurma, int codigoFuncionario) {
+        String sql = "DELETE FROM TurmaParticipante WHERE Turma = ? AND Funcionario = ?";
+        jdbcTemplate.update(sql, codigoTurma, codigoFuncionario);
+    }
+	
+	public boolean turmaCurso(int codigoCurso) {
+        String sql = "SELECT COUNT(*) FROM Turma WHERE Curso = ?";
+        int count = jdbcTemplate.queryForObject(sql, Integer.class, codigoCurso);
+        return count > 0;
+    }
+	
+//	ALTER TABLE Turma
+//	ADD CONSTRAINT fk_curso
+//	FOREIGN KEY (Curso)
+//	REFERENCES Curso(Codigo)
+//	ON DELETE CASCADE;
 
 }

@@ -4,14 +4,17 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.projectJDBC.escola.model.Funcionario;
 import com.projectJDBC.escola.model.Turma;
 import com.projectJDBC.escola.service.TurmaService;
 
@@ -42,6 +45,35 @@ public class TurmaController {
     public ResponseEntity<String> atualizarTurma(@RequestBody Turma turma) {
         turmaService.atualizarTurma(turma);
         return ResponseEntity.ok("Turma atualizada com sucesso!");
+    }
+	
+	@DeleteMapping("/deletar/{codigo}")
+    public ResponseEntity<String> deletarTurma(@PathVariable int codigo) {
+        turmaService.deletarTurmaPorCodigo(codigo);
+        return ResponseEntity.ok("Turma deletada com sucesso!");
+    }
+	
+	@GetMapping("/listarParticipantes/{codigoTurma}")
+    public List<Funcionario> listarParticipantes(@PathVariable int codigoTurma) {
+        return turmaService.listarParticipantesPorCodigoTurma(codigoTurma);
+    }
+	
+	@PostMapping("/adicionarParticipante")
+    public ResponseEntity<String> adicionarParticipante(
+        @RequestParam int codigoTurma,
+        @RequestParam int codigoFuncionario
+    ) {
+        turmaService.adicionarParticipante(codigoTurma, codigoFuncionario);
+        return ResponseEntity.ok("Participante adicionado com sucesso à turma!");
+    }
+	
+	@DeleteMapping("/excluirParticipante")
+    public ResponseEntity<String> excluirParticipante(
+        @RequestParam int codigoTurma,
+        @RequestParam int codigoFuncionario
+    ) {
+        turmaService.excluirParticipante(codigoTurma, codigoFuncionario);
+        return ResponseEntity.ok("Participante excluído com sucesso da turma!");
     }
 
 }
