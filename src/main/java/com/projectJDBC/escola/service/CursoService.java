@@ -19,6 +19,7 @@ public class CursoService {
 	@Autowired
 	private final TurmaRepository turmaRepository;
 	
+	
 	@Autowired
     public CursoService(CursoRepository cursoRepository, TurmaRepository turmaRepository) {
         this.cursoRepository = cursoRepository;
@@ -46,5 +47,4 @@ public class CursoService {
         cursoRepository.atualizarCurso(curso);
     }
 	
-
 }
