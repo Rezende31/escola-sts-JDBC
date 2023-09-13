@@ -127,5 +127,9 @@ public class TurmaRepository {
 //	FOREIGN KEY (Curso)
 //	REFERENCES Curso(Codigo)
 //	ON DELETE CASCADE;
+	
+//	ALTER TABLE TurmaParticipante
+//	ADD CONSTRAINT NomeDaChaveEstrangeira
+//	FOREIGN KEY (Turma) REFERENCES Turma(Codigo) ON DELETE CASCADE;
 
 }

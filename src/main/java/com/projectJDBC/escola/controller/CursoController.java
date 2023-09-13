@@ -3,6 +3,7 @@ package com.projectJDBC.escola.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,7 +30,7 @@ public class CursoController {
     }
 	
 	@GetMapping()
-	public ResponseEntity<List<Curso>> findCourse(){
+	public ResponseEntity<List<Curso>> findCurso(){
 		List<Curso> cursos = cursoService.findCursos();
 		return ResponseEntity.ok().body(cursos);
 	}
@@ -37,7 +38,8 @@ public class CursoController {
 	@PostMapping("/cadastro")
     public ResponseEntity<String> cadastrarCurso(@RequestBody Curso curso) {
         cursoService.cadastrarCurso(curso);
-        return ResponseEntity.ok("Curso cadastrado com sucesso!");
+//        return ResponseEntity.created(null)  ("Curso cadastrado com sucesso!");
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 	
 	@DeleteMapping("/excluir/{codigo}")
