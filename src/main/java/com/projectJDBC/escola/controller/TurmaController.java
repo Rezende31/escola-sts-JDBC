@@ -29,51 +29,46 @@ public class TurmaController {
 		this.turmaService = turmaService;
 	}
 
-
 	@GetMapping("/buscarPorCurso/{codigoCurso}")
 	public ResponseEntity<List<Turma>> buscarTurmasPorCurso(@PathVariable int codigoCurso) {
 		return ResponseEntity.ok().body(turmaService.buscarTurmasPorCurso(codigoCurso));
 	}
-	
+
 	@PostMapping("/incluir")
 	public ResponseEntity<String> incluirTurma(@RequestBody Turma turma) {
 		turmaService.salvarTurma(turma);
 		return ResponseEntity.ok("Turma cadastrada a um curso com sucesso");
 	}
-	
+
 	@PutMapping("/atualizar")
-    public ResponseEntity<String> atualizarTurma(@RequestBody Turma turma) {
-        turmaService.atualizarTurma(turma);
-        return ResponseEntity.ok("Turma atualizada com sucesso!");
-    }
-	
+	public ResponseEntity<String> atualizarTurma(@RequestBody Turma turma) {
+		turmaService.atualizarTurma(turma);
+		return ResponseEntity.ok("Turma atualizada com sucesso!");
+	}
+
 	@DeleteMapping("/deletar/{codigo}")
-    public ResponseEntity<String> deletarTurma(@PathVariable int codigo) {
-        turmaService.deletarTurmaPorCodigo(codigo);
-        return ResponseEntity.ok("Turma deletada com sucesso!");
-    }
-	
+	public ResponseEntity<String> deletarTurma(@PathVariable int codigo) {
+		turmaService.deletarTurmaPorCodigo(codigo);
+		return ResponseEntity.ok("Turma deletada com sucesso!");
+	}
+
 	@GetMapping("/listarParticipantes/{codigoTurma}")
-    public List<Funcionario> listarParticipantes(@PathVariable int codigoTurma) {
-        return turmaService.listarParticipantesPorCodigoTurma(codigoTurma);
-    }
-	
+	public List<Funcionario> listarParticipantes(@PathVariable int codigoTurma) {
+		return turmaService.listarParticipantesPorCodigoTurma(codigoTurma);
+	}
+
 	@PostMapping("/adicionarParticipante")
-    public ResponseEntity<String> adicionarParticipante(
-        @RequestParam int codigoTurma,
-        @RequestParam int codigoFuncionario
-    ) {
-        turmaService.adicionarParticipante(codigoTurma, codigoFuncionario);
-        return ResponseEntity.ok("Participante adicionado com sucesso à turma!");
-    }
-	
+	public ResponseEntity<String> adicionarParticipante(@RequestParam int codigoTurma,
+			@RequestParam int codigoFuncionario) {
+		turmaService.adicionarParticipante(codigoTurma, codigoFuncionario);
+		return ResponseEntity.ok("Participante adicionado com sucesso à turma!");
+	}
+
 	@DeleteMapping("/excluirParticipante")
-    public ResponseEntity<String> excluirParticipante(
-        @RequestParam int codigoTurma,
-        @RequestParam int codigoFuncionario
-    ) {
-        turmaService.excluirParticipante(codigoTurma, codigoFuncionario);
-        return ResponseEntity.ok("Participante excluído com sucesso da turma!");
-    }
+	public ResponseEntity<String> excluirParticipante(@RequestParam int codigoTurma,
+			@RequestParam int codigoFuncionario) {
+		turmaService.excluirParticipante(codigoTurma, codigoFuncionario);
+		return ResponseEntity.ok("Participante excluído com sucesso da turma!");
+	}
 
 }
